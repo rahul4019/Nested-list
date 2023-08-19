@@ -1,13 +1,16 @@
 // import { useState } from 'react';
 
-import { Button } from '@mui/material';
 import './App.css';
+import Home from './pages/Home';
+import { Routes, Route } from 'react-router-dom';
+import NestedList from './pages/NestedList';
 
 function App() {
   return (
-    <div>
-      <Button variant="contained">Hello world</Button>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/nested-list" element={<NestedList />} />
+    </Routes>
   );
 }
 
