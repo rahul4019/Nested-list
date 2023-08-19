@@ -2,11 +2,14 @@ import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,6 +24,9 @@ const Home = () => {
 
     // set user details in localstorage
     localStorage.setItem('user', JSON.stringify(user));
+
+    // redirect user to user page
+    navigate('/user-page');
   };
 
   return (
