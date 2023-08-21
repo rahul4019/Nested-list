@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 
+import NestedList from '../components/NestedList';
 import GridTable from '../components/GridTable';
 
 interface Post {
@@ -16,7 +18,7 @@ interface User {
   phone: string;
 }
 
-const UserPage = () => {
+const UserPage: React.FC = () => {
   const [user, setUser] = useState<User>({ name: '', email: '', phone: '' });
   const [posts, setPosts] = useState<Post[]>([]);
 
@@ -35,8 +37,9 @@ const UserPage = () => {
 
   useEffect(() => {
     const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
-    setUser(userFromLocalStorage);
-    if (!user) {
+    if (userFromLocalStorage) {
+      setUser(userFromLocalStorage);
+    } else {
       window.alert('Please fill all the details!');
     }
   }, []);
@@ -49,9 +52,16 @@ const UserPage = () => {
     fetchPosts();
   }, []);
 
-  if (!user) return <Navigate to="/" />;
+  if (!user) {
+    return <Navigate to="/" />;
+  }
 
-  return <div>{posts && <GridTable posts={posts} />}</div>;
+  return (
+    <Box>
+      {posts && <GridTable posts={posts} />}
+      <NestedList />
+    </Box>
+  );
 };
 
 export default UserPage;
