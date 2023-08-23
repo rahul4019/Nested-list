@@ -1,38 +1,42 @@
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Container, Box } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
+import { GridTableProps } from '../types';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'id', headerName: 'ID', width: 20 },
   {
     field: 'userId',
     headerName: 'UserId',
-    width: 150,
+    width: 60,
     editable: true,
+    headerAlign: 'center',
+    align: 'center',
   },
   {
     field: 'title',
     headerName: 'Title',
     width: 150,
     editable: true,
+    headerAlign: 'center',
   },
   {
     field: 'body',
     headerName: 'Body',
     type: 'number',
-    width: 200,
+    width: 300,
     editable: true,
+    headerAlign: 'center',
+    align: 'center',
   },
 ];
 
-interface GridTableProps {
-  posts: Post[];
-}
 
-const GridTable = ({ posts }) => {
+
+const GridTable: React.FC<GridTableProps> = ({ posts }) => {
   const rows = [...posts];
 
   return (
-    <div>
+    <Box sx={{ width: '100%', maxWidth: 700 }}>
       <h1>Data Table</h1>
       <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
@@ -50,7 +54,7 @@ const GridTable = ({ posts }) => {
           disableRowSelectionOnClick
         />
       </Box>
-    </div>
+    </Box>
   );
 };
 

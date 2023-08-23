@@ -4,23 +4,14 @@ import { Box } from '@mui/material';
 
 import NestedList from '../components/NestedList';
 import GridTable from '../components/GridTable';
-
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
-interface User {
-  name: string;
-  email: string;
-  phone: string;
-}
+import { Post, User } from '../types';
 
 const UserPage: React.FC = () => {
-  const [user, setUser] = useState<User>({ name: '', email: '', phone: '' });
   const [posts, setPosts] = useState<Post[]>([]);
+  const userFromLocalStorage = localStorage.getItem('user');
+  const user: User = userFromLocalStorage
+    ? JSON.parse(userFromLocalStorage)
+    : null;
 
   const fetchData = async (): Promise<Post[]> => {
     try {
@@ -36,15 +27,6 @@ const UserPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
-    if (userFromLocalStorage) {
-      setUser(userFromLocalStorage);
-    } else {
-      window.alert('Please fill all the details!');
-    }
-  }, []);
-
-  useEffect(() => {
     const fetchPosts = async () => {
       const fetchedPosts = await fetchData();
       setPosts(fetchedPosts);
@@ -52,15 +34,27 @@ const UserPage: React.FC = () => {
     fetchPosts();
   }, []);
 
-  if (!user) {
-    return <Navigate to="/" />;
-  }
-
   return (
-    <Box>
-      {posts && <GridTable posts={posts} />}
-      <NestedList />
-    </Box>
+    <div>
+      {user ? (
+        <Box
+          sx={{
+            mx: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {posts && <GridTable posts={posts} />}
+          <NestedList />
+        </Box>
+      ) : (
+        <>
+          {window.alert('Please fill all the details!')}
+          <Navigate to="/" />
+        </>
+      )}
+    </div>
   );
 };
 
